@@ -32,13 +32,16 @@ ThreadPool* ThreadPool::GetInstance()
 
 void ThreadPool::Stop()
 {
-    _stopThreads = true;
-
-    for(auto& thread : _threads)
+    if (!_stopThreads)
     {
-        if(thread.joinable())
+        _stopThreads = true;
+
+        for (auto& thread : _threads)
         {
-            thread.join();
+            if (thread.joinable())
+            {
+                thread.join();
+            }
         }
     }
 }

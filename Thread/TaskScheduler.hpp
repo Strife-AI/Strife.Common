@@ -41,6 +41,7 @@ public:
     }
 
     void Run();
+    void Stop();
 
     static TaskScheduler* GetInstance();
 

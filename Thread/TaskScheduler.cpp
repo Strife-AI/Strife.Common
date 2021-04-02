@@ -22,13 +22,21 @@ TaskScheduler::TaskScheduler()
 
 }
 
+void TaskScheduler::Stop()
+{
+    if (!_isDone)
+    {
+        _isDone = true;
+        if (_workThread.joinable())
+        {
+            _workThread.join();
+        }
+    }
+}
+
 TaskScheduler::~TaskScheduler()
 {
-    _isDone = true;
-    if(_workThread.joinable())
-    {
-        _workThread.join();
-    }
+    Stop();
 }
 
 void TaskScheduler::Run()
@@ -41,7 +49,7 @@ void TaskScheduler::Run()
 
         _taskListLock.Lock();
         {
-            for (auto& task : _tasks)
+            for (auto task : _tasks)
             {
                 float now = GetTimeSeconds();
                 if (now >= task->runTime)
