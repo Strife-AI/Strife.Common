@@ -52,11 +52,26 @@ void TaskScheduler::Run()
             for (auto task : _tasks)
             {
                 float now = GetTimeSeconds();
-                if (now >= task->runTime)
+                if (!task->isPaused && now >= task->runTime)
                 {
-                    task->startTime = now;
+                    if (task->recurringTime.has_value())
+                    {
+                        // Make sure the last version of the task has already finished
+                        if (!task->isFirstRun && !task->workItem->IsComplete())
+                        {
+                            continue;
+                        }
+
+                        task->isFirstRun = false;
+                        task->runTime = now + task->recurringTime.value();
+                        task->workItem->Reset();
+                    }
+                    else
+                    {
+                        _completeTasks.push_back(task);
+                    }
+
                     threadPool->StartItem(task->workItem);
-                    _completeTasks.push_back(task);
                 }
             }
 

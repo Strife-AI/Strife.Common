@@ -6,25 +6,13 @@
 
 #include "ThreadPool.hpp"
 
-enum class ScheduledTaskRunState
-{
-    Scheduled,
-    Started,
-    Done
-};
-
-struct ScheduledTaskSettings
-{
-    std::optional<int> runCount;
-    std::optional<float> runsPerSecond;
-
-};
-
 struct ScheduledTask
 {
     float runTime;
-    float startTime;
+    std::optional<float> recurringTime;
     std::shared_ptr<IThreadPoolWorkItem> workItem;
+    bool isPaused = false;
+    bool isFirstRun = true;
 };
 
 class TaskScheduler

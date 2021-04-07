@@ -9,6 +9,10 @@
 struct IThreadPoolWorkItem
 {
     virtual ~IThreadPoolWorkItem() = default;
+    void Reset()
+    {
+        _isComplete = false;
+    }
 
     void Run()
     {
