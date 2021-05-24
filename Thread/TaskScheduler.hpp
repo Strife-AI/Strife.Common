@@ -2,7 +2,7 @@
 #include <functional>
 #include <memory>
 #include <unordered_set>
-
+#include <optional>
 
 #include "ThreadPool.hpp"
 

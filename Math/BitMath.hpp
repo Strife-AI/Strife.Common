@@ -91,3 +91,10 @@ float SmoothDamp(float current, float target, float& currentVelocity, float smoo
 
 float SmoothDampAngle(float current, float target, float& currentVelocity, float smoothTime, float deltaTime,
     float maxSpeed = INFINITY);
+
+inline float SmoothStep(float leftEdge, float rightEdge, float x)
+{
+    x = Clamp((x - leftEdge) / (rightEdge - leftEdge), 0.0f, 1.0f);
+    // Evaluate polynomial
+    return x * x * (3 - 2 * x);
+}
