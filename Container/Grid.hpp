@@ -109,6 +109,12 @@ public:
 
     }
 
+    FixedSizeGrid(const FixedSizeGrid<T, NumRows, NumCols>& rhs)
+        : Grid<T>(NumRows, NumCols, _gridData)
+    {
+        memcpy(_gridData, rhs._gridData, sizeof(T) * NumRows * NumCols);
+    }
+
     void FastCopyTo(FixedSizeGrid& outGrid) const
     {
         memcpy(outGrid._gridData, _gridData, sizeof(T) * NumRows * NumCols);
